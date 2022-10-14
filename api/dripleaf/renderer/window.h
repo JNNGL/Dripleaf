@@ -16,15 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <dripleaf/renderer/window.h>
-#include <dripleaf/renderer/window_loop.h>
+#pragma once
 
-#include "renderer/window_glfw.h"
+#include <cstdint>
+#include <string>
 
-int main() {
-  auto* windowLoop = new WindowLoop;
-  windowLoop->addWindow(new WindowGLFW(1280, 720, "Hello, world"));
-  windowLoop->loop();
-  delete windowLoop;
-  return 0;
-}
+class IWindow {
+ public:
+  virtual ~IWindow() = default;
+
+  [[nodiscard]] virtual uint32_t getWidth() const = 0;
+  [[nodiscard]] virtual uint32_t getHeight() const = 0;
+  [[nodiscard]] virtual const std::string& getTitle() const = 0;
+  [[nodiscard]] virtual void* getHandle() const = 0;
+  [[nodiscard]] virtual bool shouldClose() const = 0;
+
+  virtual void doLoopWork() = 0;
+};

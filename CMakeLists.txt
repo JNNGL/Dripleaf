@@ -24,6 +24,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/libdeflate)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/openssl)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/openssl/include)
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/api)
+
 file(GLOB_RECURSE DRIPLEAF_SOURCES src/*.cpp)
 add_executable(Dripleaf ${DRIPLEAF_SOURCES})
 target_link_libraries(Dripleaf ssl crypto glad glfw uv_a libdeflate_static)
