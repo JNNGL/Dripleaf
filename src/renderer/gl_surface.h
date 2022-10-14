@@ -16,22 +16,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <dripleaf/renderer/window.h>
-#include <dripleaf/renderer/window_loop.h>
+#pragma once
 
-#include "renderer/gl_surface.h"
-#include "renderer/window_glfw.h"
+#include <dripleaf/renderer/surface.h>
 
-int main() {
-  auto* windowLoop = new WindowLoop;
+class GLSurface : public ISurface {
+ private:
+  Color color {};
 
-  ISurface* surface = new GLSurface;
-  surface->setBackgroundColor({0.1f, 0.3f, 0.6f, 1.0f});
+ public:
+  GLSurface() = default;
+  ~GLSurface() override = default;
 
-  windowLoop->addWindow(new WindowGLFW(surface, 1280, 720, "Hello, world"));
+  void initialize(IWindow* window) override;
+  void render(IWindow* window) override;
 
-  windowLoop->loop();
-  delete windowLoop;
-
-  return 0;
-}
+  void setBackgroundColor(const Color& value) override {
+    color = value;
+  }
+};

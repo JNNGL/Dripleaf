@@ -16,22 +16,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "gl_surface.h"
+
+#include <glad/glad.h>
+
+#include <GLFW/glfw3.h>
 #include <dripleaf/renderer/window.h>
-#include <dripleaf/renderer/window_loop.h>
 
-#include "renderer/gl_surface.h"
-#include "renderer/window_glfw.h"
+#include <stdexcept>
 
-int main() {
-  auto* windowLoop = new WindowLoop;
+void GLSurface::initialize(IWindow* window) {
+  if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
+    throw std::runtime_error("Couldn't initialize GLAD");
+  }
+}
 
-  ISurface* surface = new GLSurface;
-  surface->setBackgroundColor({0.1f, 0.3f, 0.6f, 1.0f});
+void GLSurface::render(IWindow* window) {
+  glViewport(0, 0, (GLsizei) window->getWidth(), (GLsizei) window->getHeight());
 
-  windowLoop->addWindow(new WindowGLFW(surface, 1280, 720, "Hello, world"));
-
-  windowLoop->loop();
-  delete windowLoop;
-
-  return 0;
+  glClearColor(color.r, color.g, color.b, color.a);
+  glClear(GL_COLOR_BUFFER_BIT);
 }
